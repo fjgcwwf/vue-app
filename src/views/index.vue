@@ -2,51 +2,50 @@
   <div class="app-wrapper">
     <el-container>
       <el-container>
-        <el-header
-          style="text-align: right; font-size: 12px;background: #203670;"
-          ><div class="navbar">
+        <el-header style="text-align: right; font-size: 12px;background: #203670;">
+          <div class="navbar">
             <div class="right-menu">
-              <el-menu
-                class=""
-                mode="horizontal"
-                background-color="#203670"
-                text-color="#fff"
-                active-text-color="#ffd04b"
-              >
-                <el-menu-item index="1"
-                  ><i class="iconfont el-ico-thirdzongshu"></i
-                  >综合情况</el-menu-item
-                >
-                <el-menu-item index="2"
-                  ><i class="iconfont el-ico-thirdziyuan"></i
-                  >资源目录</el-menu-item
-                >
-                <el-menu-item index="3"
-                  ><i class="iconfont el-ico-thirdshenji"></i
-                  >审计项目</el-menu-item
-                >
-                <el-menu-item index="4"
-                  ><i class="iconfont el-ico-thirdyujing"></i
-                  >预警分析</el-menu-item
-                >
-                <el-menu-item index="5"
-                  ><i class="iconfont el-ico-thirdwenti"></i
-                  >共性问题</el-menu-item
-                >
-                <el-menu-item index="6"
-                  ><i class="iconfont el-ico-thirddianxinganli"></i
-                  >典型案例</el-menu-item
-                >
+              <el-menu class="" mode="horizontal" background-color="#203670" text-color="#fff" active-text-color="#ffd04b">
+                <el-menu-item index="1"><i class="iconfont el-ico-thirdzongshu"></i>综合情况</el-menu-item>
+                <el-menu-item index="2"><i class="iconfont el-ico-thirdziyuan"></i>资源目录</el-menu-item>
+                <el-menu-item index="3"><i class="iconfont el-ico-thirdshenji"></i>审计项目</el-menu-item>
+                <el-menu-item index="4"><i class="iconfont el-ico-thirdyujing"></i>预警分析</el-menu-item>
+                <el-menu-item index="5"><i class="iconfont el-ico-thirdwenti"></i>共性问题</el-menu-item>
+                <el-menu-item index="6"><i class="iconfont el-ico-thirddianxinganli"></i>典型案例</el-menu-item>
               </el-menu>
             </div>
           </div>
         </el-header>
         <el-main>
-          <div id="app">
-            <Chart
-              style="min-width: 800px; min-height: 400px; float:left"
-            ></Chart>
-          </div>
+          <el-row :gutter="20">
+            <el-col :span="12">
+              <div class="grid-content bg-purple">
+                <Chart style="min-width: 600px; min-height: 400px; float:left" :chartOption="chartOption" @sendyear="getyear"></Chart>
+              </div>
+            </el-col>
+            <el-col :span="12">
+              <div class="grid-content bg-purple">
+                <mapChart style="min-width: 600px; min-height: 400px; float:left" @sendzq="getzq"></mapChart>
+              </div>
+            </el-col>
+          </el-row>
+          <el-table :data="tableData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))" style="width: 100%">
+            <el-table-column prop="name" label="地区" width="180">
+            </el-table-column>
+            <el-table-column prop="gd" label="耕地" width="180">
+            </el-table-column>
+            <el-table-column prop="yl" label="园林" width="180">
+            </el-table-column>
+            <el-table-column prop="ld" label="林地" width="180">
+            </el-table-column>
+            <el-table-column prop="hm" label="荒漠" width="180">
+            </el-table-column>
+            <el-table-column prop="cd" label="草地" width="180">
+            </el-table-column>
+            <el-table-column prop="sy" label="水域" width="180">
+            </el-table-column>
+          </el-table>
+
         </el-main>
       </el-container>
     </el-container>
@@ -54,21 +53,75 @@
 </template>
 
 <script>
-import Chart from "../components/MapChart.vue";
+import Chart from "../components/Chart.vue";
+import mapChart from "../components/MapChart.vue";
+import options from "../views/chart-options/Options";
 export default {
   name: "app",
   data() {
-    return {};
+    return {
+      chartOption: options.chartOption,
+      sdata: options.sdata,
+      tableData: [],
+      search: ""
+    };
   },
   components: {
-    Chart
+    Chart,
+    mapChart
+  },
+  computed: {
+    mapSearch: function () { }
+  },
+  created() {
+    this.getData();
+  },
+  mounted() { },
+  methods: {
+    async getData() {
+      this.tableData = [
+        {
+          name: "福州",
+          gd: 1729547,
+          ld: 3318255,
+          yl: 434356,
+          hm: 19391,
+          cd: 101660,
+          sy: 21313
+        },
+        {
+          name: "南平",
+          gd: 3318255,
+          ld: 112323,
+          yl: 3318255,
+          hm: 223213,
+          cd: 535353,
+          sy: 57997
+        },
+        {
+          name: "三明",
+          gd: 338255,
+          ld: 11223,
+          yl: 331255,
+          hm: 22313,
+          cd: 53553,
+          sy: 57997
+        }
+      ];
+    },
+    getyear(msg) {
+      alert(msg)
+    },
+    getzq(msg) {
+      this.search = msg;
+    }
   }
 };
 </script>
 
 <style lang="scss" scoped>
 #app {
-  width: 400px;
+  width: 800px;
   height: 400px;
   margin: 40px auto;
 }

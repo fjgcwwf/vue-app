@@ -1,7 +1,7 @@
 module.exports = {
     chartOption: {
         chart: {
-            type: "column",
+            //type: "column",
             //backgroundColor: 'rgba(0,0,0,0)',
             events: {
                 drilldown: function (e) {
@@ -41,6 +41,7 @@ module.exports = {
         },
         series: [{
             name: '分发数据量',
+            type: 'column',
             data: [{
                 name: 2018,
                 y: 2654,
@@ -62,10 +63,22 @@ module.exports = {
                 y: 1120,
                 drilldown: 2014
             }]
+        }, {
+            type: 'line',
+            name: '目标值',
+            data: [4000, 4300, 4500, 5000, 5200],
+            dashStyle: 'ShortDash',
+            marker: {
+                lineWidth: 2,
+                symbol: 'circle',
+                lineColor: "#000",
+                fillColor: 'red'
+            }
         }],
         drilldown: {
             series: [{
                 name: "数据量",
+                type: 'column',
                 id: 2018,
                 data: [
                     ["党政领导机关", 1234],
@@ -76,6 +89,7 @@ module.exports = {
                 ]
             }, {
                 name: "数据量",
+                type: 'column',
                 id: 2017,
                 data: [
                     ["党政领导机关", 1234],
@@ -86,6 +100,7 @@ module.exports = {
                 ]
             }, {
                 name: "数据量",
+                type: 'column',
                 id: 2016,
                 data: [
                     ["党政领导机关", 1234],
@@ -96,6 +111,7 @@ module.exports = {
                 ]
             }, {
                 name: "数据量",
+                type: 'column',
                 id: 2015,
                 data: [
                     ["党政领导机关", 1234],
@@ -106,6 +122,7 @@ module.exports = {
                 ]
             }, {
                 name: "数据量",
+                type: 'column',
                 id: 2014,
                 data: [
                     ["党政领导机关", 1234],
@@ -116,5 +133,26 @@ module.exports = {
                 ]
             }]
         }
-    }
+    },
+    sdata: [{
+        name: 2018,
+        y: 2654,
+        drilldown: 2018
+    }, {
+        name: 2017,
+        y: 3332,
+        drilldown: 2017
+    }, {
+        name: 2016,
+        y: 1760,
+        drilldown: 2016
+    }, {
+        name: 2015,
+        y: 1354,
+        drilldown: 2015
+    }, {
+        name: 2014,
+        y: 1120,
+        drilldown: 2014
+    }]
 }

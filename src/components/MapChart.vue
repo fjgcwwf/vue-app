@@ -6,7 +6,7 @@
 import shi from "../views/chart-options/shi";
 export default {
   data() {
-    var idNameMap = {};
+    let that = this;
     return {
       mapOptions: {
         title: {
@@ -56,7 +56,8 @@ export default {
           ]
         },
         mapNavigation: {
-          enabled: true
+          enabled: false,
+          enableMouseWheelZoom: false
         },
         // Limit zoom range
         yAxis: {
@@ -171,14 +172,16 @@ export default {
             },
             tooltip: {
               headerFormat: "",
-              pointFormatter: function() {
+              pointFormatter: function () {
                 return (
                   this.gd + this.yl + this.ld + this.hm + this.cd + this.sy
                 );
               }
             },
             events: {
-              click: function(e) {
+              click: function (e) {
+                let d = that;
+                d.changeTableZq(e.point.name);
                 var text =
                   "color " +
                   e.point.color +
@@ -215,6 +218,11 @@ export default {
         ]
       }
     };
+  },
+  methods: {
+    changeTableZq: function (zq) {
+      this.$emit("sendzq", zq);
+    }
   }
 };
 </script>
