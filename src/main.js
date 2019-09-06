@@ -5,6 +5,11 @@ import store from './store'
 import './plugins/element.js'
 import './assets/icon/iconfont.css'
 
+// 引用API文件
+import api from './api/http.js'
+// 将API方法绑定到全局
+Vue.prototype.$api = api
+
 import HighchartsVue from 'highcharts-vue'
 import Highcharts from 'highcharts'
 import drilldown from 'highcharts/modules/drilldown'

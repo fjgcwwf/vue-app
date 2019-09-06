@@ -4,7 +4,7 @@
       <highcharts class="chart" :options="chartOption" :updateArgs="updateArgs"></highcharts>
       <!-- <highcharts class="chart" :options="chartOptionstest" :updateArgs="updateArgs"></highcharts> -->
     </div>
-    <!-- <div id="chartType">
+    <div id="chartType">
       <h3>Select chart type:</h3>
       <select v-model="chartType">
         <option>Spline</option>
@@ -15,7 +15,7 @@
         <option>Area</option>
       </select>
       <input type="button" v-model="chartclick" />
-    </div> -->
+    </div>
   </div>
 </template>
 
@@ -23,6 +23,9 @@
 export default {
   props: {
     chartOption: {
+      type: Object
+    },
+    pp: {
       type: Object
     }
   },
@@ -66,7 +69,7 @@ export default {
   },
   methods: {
     click1(newValue) {
-      this.chartOptionstest.chart.type = newValue.toLowerCase(); debugger
+      this.chartOptionstest.chart.type = newValue.toLowerCase();
       this.$emit("sendyear", '2019');
       /* this.chartOptionstest.plotOptions.series.events.click = function (e) {
         alert(e.point.x);

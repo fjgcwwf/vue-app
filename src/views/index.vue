@@ -1,5 +1,10 @@
 <template>
   <div class="app-wrapper">
+    <form>
+      <input type="text" value="" v-model="projectName" placeholder="请输入项目名称">
+      <input type="file" v-on:change="getFile($event)">
+      <button @click="submitForm($event)">上传</button>
+    </form>
     <el-container>
       <el-container>
         <el-header style="text-align: right; font-size: 12px;background: #203670;">
@@ -20,7 +25,7 @@
           <el-row :gutter="20">
             <el-col :span="12">
               <div class="grid-content bg-purple">
-                <Chart style="min-width: 600px; min-height: 400px; float:left" :chartOption="chartOption" @sendyear="getyear"></Chart>
+                <Chart style="min-width: 600px; min-height: 400px; float:left" :testdata="pp" :chartOption="chartOption" @sendyear="getyear"></Chart>
               </div>
             </el-col>
             <el-col :span="12">
@@ -29,7 +34,13 @@
               </div>
             </el-col>
           </el-row>
-          <el-table :data="tableData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))" style="width: 100%">
+          <el-table :data="
+              tableData.filter(
+                data =>
+                  !search ||
+                  data.name.toLowerCase().includes(search.toLowerCase())
+              )
+            " style="width: 100%">
             <el-table-column prop="name" label="地区" width="180">
             </el-table-column>
             <el-table-column prop="gd" label="耕地" width="180">
@@ -45,7 +56,6 @@
             <el-table-column prop="sy" label="水域" width="180">
             </el-table-column>
           </el-table>
-
         </el-main>
       </el-container>
     </el-container>
@@ -53,6 +63,7 @@
 </template>
 
 <script>
+import Sidebar from "../components/Sidebar";
 import Chart from "../components/Chart.vue";
 import mapChart from "../components/MapChart.vue";
 import options from "../views/chart-options/Options";
@@ -63,13 +74,14 @@ export default {
       chartOption: options.chartOption,
       sdata: options.sdata,
       tableData: [],
-      search: ""
+      pp: [{ name: '11', 'value': '22' }],
+      search: "",
+      uploadURL: "http://localhost:24477/api/Values/upload",
+      projectName: "",
+      file: ""
     };
   },
-  components: {
-    Chart,
-    mapChart
-  },
+  components: { Sidebar, Chart, mapChart },
   computed: {
     mapSearch: function () { }
   },
@@ -78,7 +90,7 @@ export default {
   },
   mounted() { },
   methods: {
-    async getData() {
+    /* async getData() {
       this.tableData = [
         {
           name: "福州",
@@ -108,12 +120,43 @@ export default {
           sy: 57997
         }
       ];
-    },
+    }, */
     getyear(msg) {
-      alert(msg)
+      alert(msg);
     },
     getzq(msg) {
       this.search = msg;
+    },
+    getData() {
+      debugger
+      this.$api.post('http://localhost:5005/InfoTask/GetTaskList', { pageIndex: 1, pageSize: 5 }, res => {
+      })
+    },
+    getFile(event) {
+      this.file = event.target.files[0];
+      console.log(this.file);
+    },
+    submitForm(event) {      debugger;
+      event.preventDefault();
+      let formData = new FormData();
+      formData.append("file", this.file);
+
+      let config = {
+        headers: {
+          "Content-Type": "multipart/form-data"
+        }
+      };
+      this.$api.post(this.uploadURL, formData, res => {
+        debugger
+      })
+
+      // this.$http
+      //   .post(this.uploadURL, formData, config)
+      //   .then(function (response) {
+      //     if (response.status === 200) {
+      //       console.log(response.data);
+      //     }
+      //   });
     }
   }
 };
