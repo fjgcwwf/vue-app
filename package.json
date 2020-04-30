@@ -13,7 +13,7 @@
     "element-ui": "^2.7.2",
     "highcharts": "^7.1.1",
     "highcharts-vue": "^1.2.0",
-    "jquery": "^3.4.0",
+    "jquery": "^3.5.0",
     "vue": "^2.6.6",
     "vue-count-to": "^1.0.13",
     "vue-router": "^3.0.1",
